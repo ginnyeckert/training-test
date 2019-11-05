@@ -16,6 +16,13 @@ knitr::opts_chunk$set(echo = TRUE)
 -Mapping
 -Discussion
 
+<img src="Zena.jpg" title="My pup"/>
+
+```{r graphics, fig.align='center', echo=FALSE}
+knitr::include_graphics("Zena.jpg")
+```
+
+
 ## R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
