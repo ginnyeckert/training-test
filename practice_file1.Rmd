@@ -1,0 +1,46 @@
+---
+title: "practice file"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+x <- 3*4
+```
+
+
+### Header 3
+
+# Header 1
+ *italic*
+ 
+ 
+1. Matt
+    + early
+2. Amber
+    + on time
+3. Jeannette
+    + was late
+
+## show in-line R code    
+``` {r}
+paste("Hello", "World!")
+```
+```{r}
+weight_kg <- c(55, 25, 12)
+mean(weight_kg)
+```
+
+Table Header | Second Header | Third 
+------------ | ------------- | -----
+*Table Cell*   |  Cell 2
+Cell 3       | Cell 4
+
+ Use 'read.csv' to read in the data
+```{r}
+bg_chem <- read.csv("BGchem2008data.csv")
+```
+
