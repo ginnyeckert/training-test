@@ -13,6 +13,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This way is a better introduction.
 
+## Study questions
+
+- Study question 1
+- Study question 2
+- Study question 3
+
 # Outline of the manuscript work
 
 -Data cleaning
