@@ -1,0 +1,76 @@
+---
+title: "salmon_example"
+author: "Ginny Eckert"
+date: "11/6/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+To use functions from packages that conflict
+package_name::function_name(...)
+obj <- stats::filter(x)
+
+# Read and Clean Data
+
+```{r}
+catch_original <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1", method = "libcurl"),
+                    stringsAsFactors = FALSE)
+head(catch_original)
+```
+
+Pipe operator shortcut is command-shift-M %>% 
+
+Remove 'all' column and 'notes' column because we don't need them.
+Create a new dataset
+
+```{r}
+catch_data <- catch_original %>% 
+  #select(Region, Year, Chinook, Sockeye, Coho, Pink, Chum)
+  select(-All, -notesRegCode) #drops instead of selecting; selecting could reorder;
+```
+
+```{r}
+summary(catch_data)
+```
+
+# Fix Chinook character designation
+Use 'mutate' to fix Chinook column
+
+```{r}
+catch_clean <- catch_data %>% 
+  mutate(Chinook = ifelse(Chinook=="I", 1, Chinook)) %>% 
+  mutate(Chinook =as.numeric(Chinook))
+
+summary(catch_clean)
+```
+
+Used the following code to identify the one value that was non-numeric and then went back and fixed above
+```{r}
+#i <- which(is.na(catch_clean$Chinook))
+#i
+```
+
+```{r}
+#catch_original[i,]
+```
+
+
+# Reshape Data
+
+```{r}
+catch_long <- catch_clean %>% 
+  pivot_longer(cols = -c(Region, Year), names_to = "Species", values_to = "Count")
+```
+
+# Summarize Data
+
+# Join to Region Table
+
+
