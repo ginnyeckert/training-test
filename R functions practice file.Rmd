@@ -1,0 +1,59 @@
+---
+title: "R_functions_practice_file"
+author: "Ginny Eckert"
+date: "11/6/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(roxygen2)
+```
+
+
+Example of when you might repeat a calculation
+```{r}
+airtemps <- c(212, 30.3, 78, 32)
+celsius1 <- (airtemps[1]-32)*5/9
+celsius2 <- (airtemps[2]-32)*5/9
+celsius3 <- (airtemps[3]-32)*5/9
+celsius4 <- (airtemps[4]-32)*5.9
+```
+
+A function can do this simpler, so first create the function - it shows up in the global environment
+```{r}
+fahr2celsius <- function(fahr) {
+  celsius = (fahr-32)*5/9
+  return(celsius)
+}
+```
+
+Use the function
+```{r}
+celsius_f <- fahr2celsius(airtemps)
+```
+
+Create the opposite function as a practice
+
+```{r}
+#' Converts celsius to fahrenheit
+#'
+#' Add more detail when your function is more complicated
+#' @param celsius the temperature in degrees celsius to be converted to F
+#' @return the temperature in fahrenheit
+
+celsius2fahr <- function(celsius) {
+  fahr = (celsius*9/5)+32
+  return(fahr)
+}
+```
+
+Use the function 
+
+```{r}
+fahr_c <- celsius2fahr(celsius_f)
+```
+
