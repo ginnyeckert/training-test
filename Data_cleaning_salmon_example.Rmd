@@ -51,7 +51,8 @@ catch_clean <- catch_data %>%
 summary(catch_clean)
 ```
 
-Used the following code to identify the one value that was non-numeric and then went back and fixed above
+Used the following code to identify the one value that was non-numeric and then went back and fixed above, now commented it out so it doesn't do anything
+
 ```{r}
 #i <- which(is.na(catch_clean$Chinook))
 #i
@@ -69,8 +70,74 @@ catch_long <- catch_clean %>%
   pivot_longer(cols = -c(Region, Year), names_to = "Species", values_to = "Count")
 ```
 
+```{r}
+catch_wide <- catch_long %>% 
+  pivot_wider(names_from = Year,
+              values_from = Count)
+```
+
+'rename' count column to 'catch_thousands'
+
+```{r}
+catch_long <- catch_long %>% 
+  rename(catch_thousands = Count) %>% 
+  mutate(catch = catch_thousands * 1000)
+```
+
 # Summarize Data
+
+```{r}
+mean_region <- catch_long %>% 
+  group_by(Region, Species) %>% 
+  summarize(catch_mean = mean(catch),num_obs = n())
+```
+
+```{r}
+total <- catch_long %>% 
+  group_by(Species) %>% 
+  summarize(catch_total = sum(catch)) %>% 
+  arrange(desc(catch_total))
+```
+
+```{r}
+total_species_pre1900 <- catch_long %>% 
+  filter(Year <1900) %>% 
+  group_by(Species) %>% 
+  summarize(catch_total = sum(catch)) %>% 
+  arrange(desc(catch_total))
+```
 
 # Join to Region Table
 
+```{r}
+region_defs <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.303.1",
+                            method = "libcurl"),
+                        stringsAsFactors = FALSE) %>% 
+    select(code, mgmtArea)
+```
+
+```{r}
+catch_joined <- left_join(catch_long, region_defs, by = c("Region" = "code"))
+```
+
+# Separate and Unite
+
+```{r}
+site_code <- data.frame(site = c("HAW-1", "HAW-2", "HAW-3", "OAH-1", "MAI-1"), stringsAsFactors = F)
+```
+
+separate island and site number using 'separate'
+
+```{r}
+site_code_split <- site_code %>% 
+  separate(site, into = c("island", "site_num"), sep = "-")
+site_code_split
+```
+
+```{r}
+united <- site_code_split %>% 
+ unite(col=site_code, island, site_num, sep = "-")
+ 
+united
+```
 
