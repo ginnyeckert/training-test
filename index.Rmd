@@ -9,6 +9,16 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Sam's new section
+
+This way is a better introduction.
+
+## Study questions
+
+- Study question 1
+- Study question 2
+- Study question 3
+
 # Outline of the manuscript work
 
 -Data cleaning
