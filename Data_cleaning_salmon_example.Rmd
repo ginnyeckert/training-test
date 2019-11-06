@@ -1,5 +1,5 @@
 ---
-title: "salmon_example"
+title: "salmon_example for data cleaning practice"
 author: "Ginny Eckert"
 date: "11/6/2019"
 output: html_document
@@ -141,3 +141,4 @@ united <- site_code_split %>%
 united
 ```
 
+Note to self:  practice using trimws
