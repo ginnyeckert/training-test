@@ -1,0 +1,61 @@
+---
+title: "Graphics Practice File"
+author: "Ginny Eckert"
+date: "11/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+  library(leaflet)
+  library(dplyr)
+  library(tidyr)
+  library(ggplot2)
+  library(DT)
+  library(scales) # install.packages("scales")
+```
+
+# Prepare Data
+
+```{r}
+data_url <- "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3Af119a05b-bbe7-4aea-93c6-85434dcb1c5e"
+
+esc <- tryCatch(
+    read.csv("data/escapement.csv", stringsAsFactors = FALSE),
+    error=function(cond) {
+        message(paste("Escapement file does not seem to exist, so get it from the KNB."))
+        esc <- read.csv(url(data_url, method = "libcurl"), stringsAsFactors = FALSE)
+        write.csv(esc, "Data/escapement.csv", row.names=F)
+        return(esc)
+    }
+)
+
+head(esc)
+```
+
+Calculate annual escapement by Species, Region, Year for Sockeye, Chinook, Coho, Pink, Chum
+
+```{r}
+esc_date_split <- esc %>% 
+  separate(sampleDate, into = c("YYYY", "MM", "DD"), sep = "-")
+esc_date_split
+```
+
+```{r}
+esc_sum <- esc_date_split %>% 
+  filter(Species == c("Sockeye", "Chinook", "Coho", "Pink", "Chum")) %>% 
+  group_by(Species, SASAP.Region, YYYY) %>% 
+  summarize(AnnualCount = sum(DailyCount)) 
+esc_sum
+```
+
+
+# Create static plots
+
+# Create an interactive table
+
+# Create an interactive map
